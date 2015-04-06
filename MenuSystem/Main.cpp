@@ -10,6 +10,7 @@ and may not be redistributed without written permission.*/
 
 #include "MenuOption.h"
 #include "Menu.h"
+#include "MenuManager.h"
 
 #pragma comment(lib, "SDL2_ttf.lib")
 #pragma comment(lib, "SDL2.lib")
@@ -183,15 +184,19 @@ int main( int argc, char* args[] )
 	SDL_Color textColor2 = { 0.5, 10, 0 };
 
 	//MenuOption* option = new MenuOption(gRenderer, "fuck you right in the dick hole");
-	Menu* menu = new Menu(gRenderer, "Menu Title");
-	menu->add_option("helloWorld");
-	menu->add_option("helloWorld2");
-	menu->add_option("helloWorld3");
-	menu->add_option("this is a longer string");
-	menu->set_selected(0);
-	//gBGTexture->setBlendMode(SDL_BLENDMODE_MOD);
-	gTextTexture->setAlpha(128);
-	//gBGTexture->setColor(0,0.3,0.5);
+	//Menu* menu = new Menu(gRenderer, "Menu Title");
+	//menu->add_option("helloWorld");
+	//menu->add_option("helloWorld2");
+	//menu->add_option("helloWorld3");
+	//menu->add_option("this is a longer string");
+	//menu->set_selected(0);
+
+	MenuManager* manager = new MenuManager(gRenderer, 0,0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	Menu* menu = manager->createMenu("Main Menu");
+	bool flag1 = true;
+	manager->setupOption(menu, "Option1", &flag1);
+	//manager->finalize(menu);
+
 	//While application is running
 	while( !quit )
 	{
@@ -209,7 +214,9 @@ int main( int argc, char* args[] )
 		SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 		SDL_RenderClear( gRenderer );
 
-		menu->render(0,0,SCREEN_WIDTH, SCREEN_HEIGHT);
+		//menu->render(0,0,SCREEN_WIDTH, SCREEN_HEIGHT);
+
+		manager->render("Main Menu");
 
 		//Update screen
 		SDL_RenderPresent( gRenderer );

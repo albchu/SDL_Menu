@@ -16,9 +16,12 @@ public:
 	void render(int view_x, int view_y, int width, int height);
 	void add_option(const char* option);
 	void set_selected(int selected);
+	const char * get_title();
+	vector<const char*> get_option_titles();
 
 private:
 	vector<MenuOption*> options;
+	vector<const char*> optionTitles;
 	SDL_Renderer* renderer;
 	int selected_index;
 	const char * title;

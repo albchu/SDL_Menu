@@ -15,7 +15,6 @@ Menu::Menu(SDL_Renderer* new_renderer, const char * new_title)
 	{
 		printf( "Failed to render title texture!\n" );
 	}
-
 }
 
 Menu::~Menu()
@@ -25,6 +24,16 @@ Menu::~Menu()
 		delete option;
 	options.clear();
 	options.shrink_to_fit();
+}
+
+const char * Menu::get_title()
+{
+	return title;
+}
+
+vector<const char*> Menu::get_option_titles()
+{
+	return optionTitles;
 }
 
 void Menu::render(int view_x, int view_y, int width, int height)
@@ -58,4 +67,5 @@ void Menu::add_option(const char* option_name)
 {
 	MenuOption* option = new MenuOption(renderer, option_name);
 	options.push_back(option);
+	optionTitles.push_back(option_name);
 }
