@@ -19,6 +19,8 @@ public:
 	const char * get_title();
 	vector<const char*> get_option_titles();
 	int get_selected_index();
+	void set_prev_menu(Menu* new_menu);
+	Menu* get_prev_menu();
 
 private:
 	vector<MenuOption*> options;
@@ -28,6 +30,7 @@ private:
 	const char * title;
 	SDL_Texture_Wrapper* titleTexture;
 	int titleFontSize;
+	Menu* prev_menu;	// Pointer to previous menu instance if there is one
 };
 
 #endif

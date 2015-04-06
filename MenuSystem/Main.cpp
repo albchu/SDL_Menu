@@ -155,13 +155,27 @@ int main( int argc, char* args[] )
 	SDL_Color textColor1 = { 0, 0, 0 };
 	SDL_Color textColor2 = { 0.5, 10, 0 };
 
-	manager = new MenuManager(gRenderer, 0,0, SCREEN_WIDTH, SCREEN_HEIGHT);
-	Menu* menu = manager->createMenu("Main Menu");
+	MenuManager* managerLocal = new MenuManager(gRenderer, 0,0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	Menu* menu = managerLocal->createMenu("Main Menu");
+	Menu* submenu1 = managerLocal->createMenu("Submenu1");
+	//Menu* submenu2 = manager->createMenu("Submenu2");
+	//Menu* submenu3 = manager->createMenu("Submenu3");
 	bool flag1 = true;
-	manager->setupOption(menu, "Option1", &flag1);
-	manager->setupOption(menu, "Option3", &flag1);
-	manager->setupOption(menu, "Option2", &flag1);
-	manager->set_current_menu("Main Menu");
+
+	//Main menu setup
+	managerLocal->setupOption(menu, "Submenu1", submenu1);
+	//manager->setupOption(menu, "Submenu2", submenu2);
+	//manager->setupOption(menu, "Submenu3", submenu3);
+
+	//Sub menu 1 setup
+	managerLocal->setupOption(submenu1, "Set Flag1", &flag1);
+	//manager->setupOption(submenu1, "Go to submenu 3", submenu3);
+
+	//manager->setupOption(submenu3, "Go to submenu 2", submenu2);
+
+	managerLocal->set_current_menu("Main Menu");
+
+	manager = managerLocal;	// Stupid way to scope variable for debugging
 
 	//While application is running
 	while( running )

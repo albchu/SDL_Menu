@@ -3,6 +3,7 @@
 //TODO: Optimize: can pass in the font for the title texture
 Menu::Menu(SDL_Renderer* new_renderer, const char * new_title)
 {
+	prev_menu = NULL;
 	selected_index = -1;
 	title = new_title;
 	renderer = new_renderer;
@@ -76,4 +77,14 @@ void Menu::add_option(const char* option_name)
 	MenuOption* option = new MenuOption(renderer, option_name);
 	options.push_back(option);
 	optionTitles.push_back(option_name);
+}
+
+void Menu::set_prev_menu(Menu* new_menu)
+{
+	prev_menu = new_menu;
+}
+
+Menu* Menu::get_prev_menu()
+{
+	return prev_menu;
 }

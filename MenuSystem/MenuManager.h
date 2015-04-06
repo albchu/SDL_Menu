@@ -34,6 +34,7 @@ public:
 	void setupOption(Menu* menu, const char * option, Menu* next_menu);
 	bool option_exists(Menu* menu, const char * option);
 	void set_current_menu(const char * title);
+	void set_current_menu(Menu * menu);
 
 private:
 	SDL_Renderer* renderer;

@@ -33,26 +33,36 @@ void MenuManager::up()
 
 void MenuManager::select()
 {
+	const char * option_name = curr_menu->get_option_titles()[curr_menu->get_selected_index()];
+	map<const char *, MenuOptionData> optionMap = menuOptionDataMap[curr_menu->get_title()];
+	MenuOptionData optionData = optionMap[option_name];
 
+	if(optionData.type == REDIRECT)
+	{
+		// Update previous menu
+		optionData.redirect->set_prev_menu(curr_menu);
+		//prev_menu = curr_menu;
+		set_current_menu(optionData.redirect);
+	}
+	cout << "Hello" <<endl;
 }
 
 void MenuManager::render()
 {
-//	curr_menu->set_selected(curr_selected);		// Set the selected index to the top of the menu
 	curr_menu->render(view_x, view_y, width, height);
 }
 
 // Sets the current menu to be rendered by render()
 void MenuManager::set_current_menu(const char * title)
 {
-	if(prev_menu != NULL)
-		setupOption(curr_menu, backText, prev_menu);		// Set up the back button reference to the previous menu
-		
-	// Update previous menu
-	prev_menu = curr_menu;
-	curr_menu = menus[title];
-	//curr_selected = 0;
+	set_current_menu( menus[title]);
+}
 
+void MenuManager::set_current_menu(Menu * menu)
+{
+	if(menu->get_prev_menu() != NULL)
+		setupOption(menu, backText, menu->get_prev_menu());		// Set up the back button reference to the previous menu
+	curr_menu = menu;
 	curr_menu->set_selected(0);		// Set the selected index to the top of the menu
 }
 
