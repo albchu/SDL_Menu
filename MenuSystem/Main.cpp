@@ -22,9 +22,6 @@ const int SCREEN_HEIGHT = 480;
 //Starts up SDL and creates window
 bool init();
 
-//Loads media
-bool loadMedia();
-
 //Frees media and shuts down SDL
 void close();
 
@@ -148,34 +145,6 @@ SDL_Surface* loadSurface( std::string path )
 	return optimizedSurface;
 }
 
-bool loadMedia()
-{
-	//Loading success flag
-	bool success = true;
-
-	//Open the font
-	gFont = TTF_OpenFont( "../data/Fonts/lazy.ttf", 28 );
-	if( gFont == NULL )
-	{
-		printf( "Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError() );
-		success = false;
-	}
-	else
-	{
-		//Render text
-		SDL_Color textColor = { 1, 1, 1 };
-		if( !gTextTexture->loadFromRenderedText( "The quick brown fox jumps over the lazy dog", textColor, gFont ) )
-		{
-			printf( "Failed to render text texture!\n" );
-			success = false;
-		}
-	}
-
-	gBGTexture->loadFromFile( "ball.bmp");
-
-	return success;
-}
-
 void close()
 {
 	//Free loaded images
@@ -203,11 +172,6 @@ int main( int argc, char* args[] )
 	if( !init() )
 	{
 		printf( "Failed to initialize!\n" );
-	}
-	//Load media
-	if( !loadMedia() )
-	{
-		printf( "Failed to load media!\n" );
 	}
 	//Main loop flag
 	bool quit = false;
@@ -239,11 +203,8 @@ int main( int argc, char* args[] )
 		SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 		SDL_RenderClear( gRenderer );
 
-		//Render current frame
-		//gBGTexture->render( 0,0);
-
-		//gTextTexture->render( ( SCREEN_WIDTH - gTextTexture->getWidth() ) / 2, ( SCREEN_HEIGHT - gTextTexture->getHeight() ) / 2 );
 		option->render(0,0);
+
 		//Update screen
 		SDL_RenderPresent( gRenderer );
 	}

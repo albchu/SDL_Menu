@@ -14,16 +14,19 @@ public:
 	//void init(SDL_Renderer* new_renderer, const char* new_text, const char* font_path);
 	~MenuOption();
 	void render(int x, int y);
+	void setSelected(bool selected);
 
 private:
 	const char* text;
 	SDL_Texture_Wrapper* buttonTexture;
+	SDL_Texture_Wrapper* buttonTextureSelected;
 	SDL_Texture_Wrapper* textTexture;
 	TTF_Font *font;
 	SDL_Renderer* renderer;
 	int font_size;
 	int padding_w_scalar;
 	int padding_h_scalar;
+	bool is_selected;
 };
 
 #endif

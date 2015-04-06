@@ -5,16 +5,20 @@
 #include <string>
 #include <vector>
 
+#include "MenuOption.h"
+
 using namespace std;
 
 class Menu
 {
 public:
 	Menu();
-	void render();
+	void render(int view_x, int view_y, int width, int height);
 	void add_option(string option);
+	void set_selected(int selected);
+
 private:
-	vector<string> options;
+	vector<MenuOption*> options;
 	int selected_index;
 };
 

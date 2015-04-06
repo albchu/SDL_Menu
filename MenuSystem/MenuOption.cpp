@@ -1,5 +1,6 @@
 #include "MenuOption.h"
 
+//TODO: Enhancement: pass in textures for buttons rather than recreate them every goddamn time
 MenuOption::MenuOption(SDL_Renderer* new_renderer, const char* new_text, int new_font_size, const char* font_path)
 {
 	text = new_text;
@@ -7,12 +8,14 @@ MenuOption::MenuOption(SDL_Renderer* new_renderer, const char* new_text, int new
 	font_size = new_font_size;
 	padding_w_scalar = 2;	// Higher the number, the larger the padding
 	padding_h_scalar = 2;	// Higher the number, the larger the padding
+	is_selected = false;
 
 	font = TTF_OpenFont( font_path, font_size );
 
 	// Instantiate objects
 	textTexture  = new SDL_Texture_Wrapper(renderer);
 	buttonTexture  = new SDL_Texture_Wrapper(renderer);
+	buttonTextureSelected  = new SDL_Texture_Wrapper(renderer);
 
 	// Load text
 	SDL_Color textColor = { 0, 0, 0 };
@@ -26,7 +29,19 @@ MenuOption::MenuOption(SDL_Renderer* new_renderer, const char* new_text, int new
 	{
 		printf( "Failed to render button texture!\n" );
 	}
+
+	// Load background selected button
+	if( !buttonTextureSelected->loadFromFile("../data/images/Menu/glossy_button_blank_yellow_rectangle.bmp") )
+	{
+		printf( "Failed to render button texture!\n" );
+	}
 }
+
+void MenuOption::setSelected(bool selected)
+{
+	is_selected = selected;
+}
+
 
 void MenuOption::render(int x, int y)
 {
@@ -39,7 +54,11 @@ void MenuOption::render(int x, int y)
 	buttonRenderQuad->w = textTexture->getWidth() + (font_size * padding_w_scalar);
 	buttonRenderQuad->h = textTexture->getHeight() + (font_size * padding_h_scalar);
 
-	buttonTexture->render(x,y, NULL, 0, rotate_center, SDL_FLIP_NONE, buttonRenderQuad);
+	//Determine which button texture to use
+	if(is_selected)
+		buttonTextureSelected->render(x,y, NULL, 0, rotate_center, SDL_FLIP_NONE, buttonRenderQuad);
+	else
+		buttonTexture->render(x,y, NULL, 0, rotate_center, SDL_FLIP_NONE, buttonRenderQuad);
 	textTexture->render((font_size * padding_w_scalar)/2,buttonRenderQuad->h/3, NULL, 0, rotate_center, SDL_FLIP_NONE);
 
 }
@@ -49,4 +68,5 @@ MenuOption::~MenuOption()
 	TTF_CloseFont(font);
 	textTexture->free();
 	buttonTexture->free();
+	buttonTextureSelected->free();
 }
