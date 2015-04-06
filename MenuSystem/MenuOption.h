@@ -15,6 +15,7 @@ public:
 	~MenuOption();
 	void render(int x, int y);
 	void setSelected(bool selected);
+	SDL_Rect* getButtonRect();
 
 private:
 	const char* text;
@@ -27,6 +28,7 @@ private:
 	int padding_w_scalar;
 	int padding_h_scalar;
 	bool is_selected;
+	SDL_Rect* buttonRenderQuad;
 };
 
 #endif

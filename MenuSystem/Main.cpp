@@ -9,6 +9,7 @@ and may not be redistributed without written permission.*/
 #include <cmath>
 
 #include "MenuOption.h"
+#include "Menu.h"
 
 #pragma comment(lib, "SDL2_ttf.lib")
 #pragma comment(lib, "SDL2.lib")
@@ -181,8 +182,13 @@ int main( int argc, char* args[] )
 	SDL_Color textColor1 = { 0, 0, 0 };
 	SDL_Color textColor2 = { 0.5, 10, 0 };
 
-	MenuOption* option = new MenuOption(gRenderer, "fuck you right in the dick hole");
-
+	//MenuOption* option = new MenuOption(gRenderer, "fuck you right in the dick hole");
+	Menu* menu = new Menu(gRenderer);
+	menu->add_option("helloWorld");
+	menu->add_option("helloWorld2");
+	menu->add_option("helloWorld3");
+	menu->add_option("this is a longer string");
+	menu->set_selected(0);
 	//gBGTexture->setBlendMode(SDL_BLENDMODE_MOD);
 	gTextTexture->setAlpha(128);
 	//gBGTexture->setColor(0,0.3,0.5);
@@ -203,7 +209,7 @@ int main( int argc, char* args[] )
 		SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 		SDL_RenderClear( gRenderer );
 
-		option->render(0,0);
+		menu->render(0,0,SCREEN_WIDTH, SCREEN_HEIGHT);
 
 		//Update screen
 		SDL_RenderPresent( gRenderer );

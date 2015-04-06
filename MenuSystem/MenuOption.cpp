@@ -35,6 +35,11 @@ MenuOption::MenuOption(SDL_Renderer* new_renderer, const char* new_text, int new
 	{
 		printf( "Failed to render button texture!\n" );
 	}
+
+	buttonRenderQuad = new SDL_Rect();
+	//Set rendering space and render to screen
+	buttonRenderQuad->w = textTexture->getWidth() + (font_size * padding_w_scalar);
+	buttonRenderQuad->h = textTexture->getHeight() + (font_size * padding_h_scalar);
 }
 
 void MenuOption::setSelected(bool selected)
@@ -42,6 +47,10 @@ void MenuOption::setSelected(bool selected)
 	is_selected = selected;
 }
 
+SDL_Rect* MenuOption::getButtonRect()
+{
+	return buttonRenderQuad;
+}
 
 void MenuOption::render(int x, int y)
 {
@@ -49,17 +58,12 @@ void MenuOption::render(int x, int y)
 	rotate_center->x = 0;
 	rotate_center->y = 0;
 
-	SDL_Rect* buttonRenderQuad = new SDL_Rect();
-	//Set rendering space and render to screen
-	buttonRenderQuad->w = textTexture->getWidth() + (font_size * padding_w_scalar);
-	buttonRenderQuad->h = textTexture->getHeight() + (font_size * padding_h_scalar);
-
 	//Determine which button texture to use
 	if(is_selected)
 		buttonTextureSelected->render(x,y, NULL, 0, rotate_center, SDL_FLIP_NONE, buttonRenderQuad);
 	else
 		buttonTexture->render(x,y, NULL, 0, rotate_center, SDL_FLIP_NONE, buttonRenderQuad);
-	textTexture->render((font_size * padding_w_scalar)/2,buttonRenderQuad->h/3, NULL, 0, rotate_center, SDL_FLIP_NONE);
+	textTexture->render(x + (font_size * padding_w_scalar)/2, y + buttonRenderQuad->h/3, NULL, 0, rotate_center, SDL_FLIP_NONE);
 
 }
 
