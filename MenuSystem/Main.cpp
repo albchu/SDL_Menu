@@ -27,29 +27,12 @@ bool init();
 //Frees media and shuts down SDL
 void close();
 
-//The window we'll be rendering to
 SDL_Window* gWindow = NULL;
 
 //The window renderer
 SDL_Renderer* gRenderer = NULL;
 
-//Globally used font
-TTF_Font *gFont = NULL;
-
-//Rendered texture
-SDL_Texture_Wrapper* gTextTexture;
-
-//Rendered texture background
-SDL_Texture_Wrapper* gBGTexture;
-
-//Loads individual image
-SDL_Surface* loadSurface( std::string path );
-
-//The surface contained by the window
-SDL_Surface* gScreenSurface = NULL;
-
-//Current displayed image
-SDL_Surface* gStretchedSurface = NULL;
+bool running = true;
 
 bool init()
 {
@@ -105,67 +88,44 @@ bool init()
 					printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
 					success = false;
 				}
-
-				//Get window surface for image rendering
-				gScreenSurface = SDL_GetWindowSurface( gWindow );
 			}
 		}
 	}
 
-	//Initialize SDL_Texture_Wrapper
-	gTextTexture = new SDL_Texture_Wrapper(gRenderer);
-	gBGTexture = new SDL_Texture_Wrapper(gRenderer);
-
 	return success;
-}
-
-
-SDL_Surface* loadSurface( std::string path )
-{
-	//The final optimized image
-	SDL_Surface* optimizedSurface = NULL;
-
-	//Load image at specified path
-	SDL_Surface* loadedSurface = SDL_LoadBMP( path.c_str() );
-	if( loadedSurface == NULL )
-	{
-		printf( "Unable to load image %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
-	}
-	else
-	{
-		//Convert surface to screen format
-		optimizedSurface = SDL_ConvertSurface( loadedSurface, gScreenSurface->format, NULL );
-		if( optimizedSurface == NULL )
-		{
-			printf( "Unable to optimize image %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
-		}
-
-		//Get rid of old loaded surface
-		SDL_FreeSurface( loadedSurface );
-	}
-
-	return optimizedSurface;
 }
 
 void close()
 {
-	//Free loaded images
-	gTextTexture->free();
-
-	//Free global font
-	TTF_CloseFont( gFont );
-	gFont = NULL;
-
 	//Destroy window	
 	SDL_DestroyRenderer( gRenderer );
 	SDL_DestroyWindow( gWindow );
-	gWindow = NULL;
 	gRenderer = NULL;
 
 	//Quit SDL subsystems
 	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
+}
+
+void OnEvent(SDL_Event* Event)
+{
+	switch (Event->type)
+	{
+	case SDL_QUIT:
+		running = false;
+		break;
+
+	case SDL_KEYDOWN:
+		//overMind->notify(Event->key.keysym.sym);
+
+		switch (Event->key.keysym.sym)
+		{
+		case SDLK_ESCAPE:
+			running = false;
+			break;
+		}
+	}
 }
 
 int main( int argc, char* args[] )
@@ -175,21 +135,12 @@ int main( int argc, char* args[] )
 	{
 		printf( "Failed to initialize!\n" );
 	}
-	//Main loop flag
-	bool quit = false;
 
 	//Event handler
 	SDL_Event e;
+
 	SDL_Color textColor1 = { 0, 0, 0 };
 	SDL_Color textColor2 = { 0.5, 10, 0 };
-
-	//MenuOption* option = new MenuOption(gRenderer, "fuck you right in the dick hole");
-	//Menu* menu = new Menu(gRenderer, "Menu Title");
-	//menu->add_option("helloWorld");
-	//menu->add_option("helloWorld2");
-	//menu->add_option("helloWorld3");
-	//menu->add_option("this is a longer string");
-	//menu->set_selected(0);
 
 	MenuManager* manager = new MenuManager(gRenderer, 0,0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	Menu* menu = manager->createMenu("Main Menu");
@@ -198,28 +149,21 @@ int main( int argc, char* args[] )
 	manager->setupOption(menu, "Option3", &flag1);
 	manager->setupOption(menu, "Option2", &flag1);
 	manager->set_current_menu("Main Menu");
-	//manager->finalize(menu);
 
 	//While application is running
-	while( !quit )
+	while( running )
 	{
 		//Handle events on queue
 		while( SDL_PollEvent( &e ) != 0 )
 		{
-			//User requests quit
-			if( e.type == SDL_QUIT )
-			{
-				quit = true;
-			}
+			OnEvent(&e);
 		}
 
 		//Clear screen
 		SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 		SDL_RenderClear( gRenderer );
 
-		//menu->render(0,0,SCREEN_WIDTH, SCREEN_HEIGHT);
-
-		manager->render("Main Menu");
+		manager->render();
 
 		//Update screen
 		SDL_RenderPresent( gRenderer );

@@ -29,8 +29,7 @@ public:
 	void up();
 	void select();	// Selects the current highlighted option in the current displayed menu and does the required task
 	Menu* createMenu(const char * title);
-	void render(const char * title);
-	//void finalize(Menu* menu);
+	void render();
 	void setupOption(Menu* menu, const char * option, bool * flag);
 	void setupOption(Menu* menu, const char * option, Menu* next_menu);
 	bool option_exists(Menu* menu, const char * option);

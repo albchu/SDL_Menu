@@ -29,7 +29,7 @@ void MenuManager::select()
 
 }
 
-void MenuManager::render(const char * title)
+void MenuManager::render()
 {
 	curr_menu->render(view_x, view_y, width, height);
 }
@@ -90,12 +90,6 @@ void MenuManager::setupOption(Menu* menu, const char * option, Menu* next_menu)
 	optionDataMap[option] = optionData;
 	menuOptionDataMap[menu->get_title()] = optionDataMap;
 }
-
-//// Adds a back button to the menu. Dont set up the return reference yet, since we need to know when its used for that info.
-//void MenuManager::finalize(Menu* menu)
-//{
-//	menu->add_option(backText);
-//}
 
 Menu* MenuManager::createMenu(const char * title)
 {
