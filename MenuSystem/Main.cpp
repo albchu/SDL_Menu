@@ -32,6 +32,8 @@ SDL_Window* gWindow = NULL;
 //The window renderer
 SDL_Renderer* gRenderer = NULL;
 
+MenuManager* manager;
+
 bool running = true;
 
 bool init()
@@ -117,14 +119,25 @@ void OnEvent(SDL_Event* Event)
 		break;
 
 	case SDL_KEYDOWN:
-		//overMind->notify(Event->key.keysym.sym);
-
 		switch (Event->key.keysym.sym)
 		{
 		case SDLK_ESCAPE:
 			running = false;
 			break;
+
+		case SDLK_DOWN:
+			manager->down();
+			break;
+			
+		case SDLK_UP:
+			manager->up();
+			break;
+			
+		case SDLK_RETURN:
+			manager->select();
+			break;
 		}
+
 	}
 }
 
@@ -142,7 +155,7 @@ int main( int argc, char* args[] )
 	SDL_Color textColor1 = { 0, 0, 0 };
 	SDL_Color textColor2 = { 0.5, 10, 0 };
 
-	MenuManager* manager = new MenuManager(gRenderer, 0,0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	manager = new MenuManager(gRenderer, 0,0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	Menu* menu = manager->createMenu("Main Menu");
 	bool flag1 = true;
 	manager->setupOption(menu, "Option1", &flag1);

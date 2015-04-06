@@ -16,12 +16,19 @@ MenuManager::MenuManager(SDL_Renderer* new_renderer, int new_view_x, int new_vie
 
 void MenuManager::down()
 {
-
+	int curr_selected = curr_menu->get_selected_index() + 1;
+	curr_selected = (curr_selected) % curr_menu->get_option_titles().size();
+	curr_menu->set_selected(curr_selected);
 }
 
 void MenuManager::up()
 {
-
+	int curr_selected = curr_menu->get_selected_index() - 1;
+	// This is a c++ issue with negative modulo numbers: Workaround is to add the size to make it positive if the index goes negative
+	if(curr_selected < 0)
+		curr_selected = curr_selected + curr_menu->get_option_titles().size();
+	curr_selected = (curr_selected) % curr_menu->get_option_titles().size();
+	curr_menu->set_selected(curr_selected);
 }
 
 void MenuManager::select()
@@ -31,6 +38,7 @@ void MenuManager::select()
 
 void MenuManager::render()
 {
+//	curr_menu->set_selected(curr_selected);		// Set the selected index to the top of the menu
 	curr_menu->render(view_x, view_y, width, height);
 }
 
@@ -43,6 +51,7 @@ void MenuManager::set_current_menu(const char * title)
 	// Update previous menu
 	prev_menu = curr_menu;
 	curr_menu = menus[title];
+	//curr_selected = 0;
 
 	curr_menu->set_selected(0);		// Set the selected index to the top of the menu
 }

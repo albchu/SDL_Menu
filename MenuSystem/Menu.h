@@ -18,6 +18,7 @@ public:
 	void set_selected(int selected);
 	const char * get_title();
 	vector<const char*> get_option_titles();
+	int get_selected_index();
 
 private:
 	vector<MenuOption*> options;

@@ -31,6 +31,12 @@ const char * Menu::get_title()
 	return title;
 }
 
+int Menu::get_selected_index()
+{
+	return selected_index;
+}
+
+
 vector<const char*> Menu::get_option_titles()
 {
 	return optionTitles;
@@ -49,6 +55,8 @@ void Menu::render(int view_x, int view_y, int width, int height)
 		MenuOption* option = options[i];
 		if(selected_index == i)
 			option->setSelected(true);
+		else
+			option->setSelected(false);
 		option->render(x - option->getButtonRect()->w/2, y - option->getButtonRect()->h/2);
 		y += option->getButtonRect()->h + spacing_y;
 	}
