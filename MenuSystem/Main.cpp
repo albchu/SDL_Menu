@@ -195,6 +195,9 @@ int main( int argc, char* args[] )
 	Menu* menu = manager->createMenu("Main Menu");
 	bool flag1 = true;
 	manager->setupOption(menu, "Option1", &flag1);
+	manager->setupOption(menu, "Option3", &flag1);
+	manager->setupOption(menu, "Option2", &flag1);
+	manager->set_current_menu("Main Menu");
 	//manager->finalize(menu);
 
 	//While application is running

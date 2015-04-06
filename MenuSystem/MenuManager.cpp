@@ -31,15 +31,20 @@ void MenuManager::select()
 
 void MenuManager::render(const char * title)
 {
+	curr_menu->render(view_x, view_y, width, height);
+}
+
+// Sets the current menu to be rendered by render()
+void MenuManager::set_current_menu(const char * title)
+{
+	if(prev_menu != NULL)
+		setupOption(curr_menu, backText, prev_menu);		// Set up the back button reference to the previous menu
+		
+	// Update previous menu
 	prev_menu = curr_menu;
 	curr_menu = menus[title];
 
-	if(prev_menu != NULL)
-		setupOption(curr_menu, backText, prev_menu);		// Set up the back button reference to the previous menu
-
 	curr_menu->set_selected(0);		// Set the selected index to the top of the menu
-
-	curr_menu->render(view_x, view_y, width, height);
 }
 
 // Returns whether the specified option exists or not in the current menu
@@ -86,7 +91,7 @@ void MenuManager::setupOption(Menu* menu, const char * option, Menu* next_menu)
 	menuOptionDataMap[menu->get_title()] = optionDataMap;
 }
 
-//// Adds a back button to the menu. Dont set up the return reference yet, since we need to know when its used for that info. Set up in render()
+//// Adds a back button to the menu. Dont set up the return reference yet, since we need to know when its used for that info.
 //void MenuManager::finalize(Menu* menu)
 //{
 //	menu->add_option(backText);
