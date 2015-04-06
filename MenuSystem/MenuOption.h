@@ -9,7 +9,7 @@ using namespace std;
 class MenuOption
 {
 public:
-	MenuOption(SDL_Renderer* new_renderer, const char* new_text, int new_font_size=20, const char* font_path="../data/Fonts/5thagent.ttf");
+	MenuOption(SDL_Renderer* new_renderer, const char* new_text, int new_font_size=20, const char* font_path="../data/Fonts/Atmosphere-Regular.ttf");
 	//MenuOption(SDL_Renderer* new_renderer, const char* new_text);
 	//void init(SDL_Renderer* new_renderer, const char* new_text, const char* font_path);
 	~MenuOption();

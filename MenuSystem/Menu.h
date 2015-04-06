@@ -11,7 +11,7 @@ using namespace std;
 class Menu
 {
 public:
-	Menu(SDL_Renderer* new_renderer);
+	Menu(SDL_Renderer* new_renderer, const char * new_title = "");
 	~Menu();
 	void render(int view_x, int view_y, int width, int height);
 	void add_option(const char* option);
@@ -21,6 +21,9 @@ private:
 	vector<MenuOption*> options;
 	SDL_Renderer* renderer;
 	int selected_index;
+	const char * title;
+	SDL_Texture_Wrapper* titleTexture;
+	int titleFontSize;
 };
 
 #endif

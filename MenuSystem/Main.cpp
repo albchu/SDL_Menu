@@ -183,7 +183,7 @@ int main( int argc, char* args[] )
 	SDL_Color textColor2 = { 0.5, 10, 0 };
 
 	//MenuOption* option = new MenuOption(gRenderer, "fuck you right in the dick hole");
-	Menu* menu = new Menu(gRenderer);
+	Menu* menu = new Menu(gRenderer, "Menu Title");
 	menu->add_option("helloWorld");
 	menu->add_option("helloWorld2");
 	menu->add_option("helloWorld3");

@@ -1,13 +1,26 @@
 #include "Menu.h"
 
-Menu::Menu(SDL_Renderer* new_renderer)
+//TODO: Optimize: can pass in the font for the title texture
+Menu::Menu(SDL_Renderer* new_renderer, const char * new_title)
 {
 	selected_index = -1;
+	title = new_title;
 	renderer = new_renderer;
+	titleTexture = new SDL_Texture_Wrapper(renderer);
+	titleFontSize = 35;
+
+	TTF_Font* titleFont = TTF_OpenFont( "../data/Fonts/Atmosphere-Regular.ttf", titleFontSize );
+	SDL_Color textColor = { 0, 0, 0 };
+	if( !titleTexture->loadFromRenderedText( title, textColor, titleFont ) )
+	{
+		printf( "Failed to render title texture!\n" );
+	}
+
 }
 
 Menu::~Menu()
 {
+	titleTexture->free();
 	for(MenuOption* option: options)
 		delete option;
 	options.clear();
@@ -19,6 +32,9 @@ void Menu::render(int view_x, int view_y, int width, int height)
 	int x = view_x + width/2;
 	int y = view_y + height/4;
 	int spacing_y = 5;
+
+	titleTexture->render(x - titleTexture->getWidth()/2,y - titleFontSize * 2);
+
 	for(int i = 0; i < options.size(); i++)
 	{
 		MenuOption* option = options[i];
