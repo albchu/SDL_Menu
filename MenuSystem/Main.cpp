@@ -152,9 +152,6 @@ int main( int argc, char* args[] )
 	//Event handler
 	SDL_Event e;
 
-	SDL_Color textColor1 = { 0, 0, 0 };
-	SDL_Color textColor2 = { 0.5, 10, 0 };
-
 	MenuManager* managerLocal = new MenuManager(gRenderer, 0,0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	Menu* mainMenu = managerLocal->createMenu("Main Menu");
 	Menu* newGame = managerLocal->createMenu("New Game");
@@ -178,7 +175,6 @@ int main( int argc, char* args[] )
 	managerLocal->setupOption(mainMenu, "newgame", "New Game", newGame);
 	managerLocal->setupOption(mainMenu, "settings", "Settings", settings);
 	managerLocal->setupOption(mainMenu, "exitgame", "Exit Game", exitGame);
-
 
 	managerLocal->set_current_menu("Main Menu");
 
