@@ -42,10 +42,11 @@ void MenuManager::select()
 		//new_curr_menu->set_prev_menu(curr_menu);	
 		set_current_menu(new_curr_menu, true);
 	}
-	else if(option->get_type() == FLAG)
+	else if(option->get_type() == FLAG)		// Toggle the boolean
 	{
-		cout << "This is not yet implemented" <<endl;
-
+		//bool aflag = *option->get_flag();
+		option->toggle_flag();
+		//aflag = true;
 	}
 
 }
@@ -82,7 +83,7 @@ MenuOption* MenuManager::option_exists(Menu* menu, const char * option_name)
 
 
 // Adds an option to the passed in menu and tracks the boolean attached to this option if it is selected
-void MenuManager::setupOption(Menu* menu, const char * option_name, bool * flag)
+void MenuManager::setupOption(Menu* menu, const char * option_name, bool& flag)
 {
 	//If the option doesnt exist, create it in the menu
 	MenuOption* option = get_option(menu, option_name);

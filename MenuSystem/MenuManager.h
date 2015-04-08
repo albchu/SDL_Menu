@@ -18,7 +18,7 @@ public:
 	void select();	// Selects the current highlighted option in the current displayed menu and does the required task
 	Menu* createMenu(const char * title);
 	void render();
-	void setupOption(Menu* menu, const char * option, bool * flag);
+	void setupOption(Menu* menu, const char * option, bool& flag);
 	void setupOption(Menu* menu, const char * option, Menu* next_menu, bool dontCreateBackButton = false);
 	MenuOption* option_exists(Menu* menu, const char * option);
 	void set_current_menu(const char * title, bool dontCreateBackButton = true);

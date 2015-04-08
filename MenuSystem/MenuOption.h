@@ -25,11 +25,12 @@ public:
 
 	// Option Data accessor/mutators
 	void set_option_data(const char* menu_name);
-	void set_option_data(bool* new_flag);
+	void set_option_data(bool& new_flag);
 
 	OptionType get_type();
 	const char* get_redirect_menu();
-	bool * get_flag();
+	bool get_flag();
+	void toggle_flag();
 	const char* get_text();
 	void set_text(const char* new_text);
 
@@ -49,7 +50,7 @@ private:
 	// Option Data. These fields can vary in which ones are filled at any time
 	OptionType type;
 	const char* redirect_menu;	// Name of the menu to redirect to: cant directly refer to menu due to circular dependancy issue
-	bool * flag;
+	bool* flag;	// Needs to record a pointer to the reference of the original boolean so that we will change that original boolean when we need to.
 };
 
 #endif

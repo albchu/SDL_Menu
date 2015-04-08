@@ -81,10 +81,10 @@ void MenuOption::set_option_data(const char* menu_name)
 	redirect_menu = menu_name;
 }
 
-void MenuOption::set_option_data(bool* new_flag)
+void MenuOption::set_option_data(bool& new_flag)
 {
 	type = FLAG;
-	flag = new_flag;
+	flag = &new_flag;
 }
 
 const char* MenuOption::get_redirect_menu()
@@ -92,7 +92,7 @@ const char* MenuOption::get_redirect_menu()
 	return redirect_menu;
 }
 
-bool* MenuOption::get_flag()
+bool MenuOption::get_flag()
 {
 	return flag;
 }
@@ -112,3 +112,7 @@ OptionType MenuOption::get_type()
 	return type;
 }
 
+void MenuOption::toggle_flag()
+{
+	*flag = !*flag;
+}

@@ -156,23 +156,24 @@ int main( int argc, char* args[] )
 	SDL_Color textColor2 = { 0.5, 10, 0 };
 
 	MenuManager* managerLocal = new MenuManager(gRenderer, 0,0, SCREEN_WIDTH, SCREEN_HEIGHT);
-	Menu* menu = managerLocal->createMenu("Main Menu");
-	Menu* submenu1 = managerLocal->createMenu("Submenu1");
-	Menu* submenu2 = managerLocal->createMenu("Submenu2");
-	Menu* submenu3 = managerLocal->createMenu("Submenu3");
-	bool flag1 = true;
+	Menu* mainMenu = managerLocal->createMenu("Main Menu");
+	Menu* newGame = managerLocal->createMenu("New Game");
+	Menu* settings = managerLocal->createMenu("Settings");
+	Menu* exitGame = managerLocal->createMenu("Exit Game");
+	Menu* developer = managerLocal->createMenu("Developer Options");
 
-	
-	//Sub menu 1 setup
-	managerLocal->setupOption(submenu1, "Set Flag1", &flag1);
-	managerLocal->setupOption(submenu1, "Go to submenu 3", submenu3);
+	bool gameActivated = false;
 
-	managerLocal->setupOption(submenu3, "Go to submenu 2", submenu2);
+	//New game menu setup
+	//managerLocal->setupOption(newGame, "Select Number of Players", mainMenu);	// UPDATE PLZ
+	//managerLocal->setupOption(newGame, "Select Number of Bots", mainMenu);	// UPDATE PLZ
+	managerLocal->setupOption(newGame, "Developer Options", developer);
+	managerLocal->setupOption(newGame, "Launch Game", gameActivated);
 
 	//Main menu setup
-	managerLocal->setupOption(menu, "Submenu1", submenu1);
-	managerLocal->setupOption(menu, "Submenu2", submenu2);
-	managerLocal->setupOption(menu, "Submenu3", submenu3);
+	managerLocal->setupOption(mainMenu, "New Game", newGame);
+	managerLocal->setupOption(mainMenu, "Settings", settings);
+	managerLocal->setupOption(mainMenu, "Exit Game", exitGame);
 
 
 	managerLocal->set_current_menu("Main Menu");
@@ -196,6 +197,14 @@ int main( int argc, char* args[] )
 
 		//Update screen
 		SDL_RenderPresent( gRenderer );
+
+		if(gameActivated)
+		{
+			cout << "Game Activated!" << endl;
+		}
+		else
+			cout << "Game Deactvated!" << endl;
+
 	}
 
 	//Free resources and close SDL
