@@ -38,9 +38,9 @@ int Menu::get_selected_index()
 }
 
 
-vector<const char*> Menu::get_option_titles()
+vector<const char*> Menu::get_option_ids()
 {
-	return optionTitles;
+	return optionIds;
 }
 
 void Menu::render(int view_x, int view_y, int width, int height)
@@ -72,11 +72,11 @@ void Menu::set_selected(int selected)
 		selected_index = 0;	// Else default it to zero. Can be problematic if nothing is set in the menu
 }
 
-MenuOption* Menu::add_option(const char* option_name)
+MenuOption* Menu::add_option(const char* option_id, const char* option_text)
 {
-	MenuOption* option = new MenuOption(renderer, option_name);
+	MenuOption* option = new MenuOption(renderer, option_id, option_text);
 	options.push_back(option);
-	optionTitles.push_back(option_name);
+	optionIds.push_back(option_id);
 	return option;
 }
 

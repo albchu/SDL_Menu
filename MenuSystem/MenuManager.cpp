@@ -17,7 +17,7 @@ MenuManager::MenuManager(SDL_Renderer* new_renderer, int new_view_x, int new_vie
 void MenuManager::down()
 {
 	int curr_selected = curr_menu->get_selected_index() + 1;
-	curr_selected = (curr_selected) % curr_menu->get_option_titles().size();
+	curr_selected = (curr_selected) % curr_menu->get_option_ids().size();
 	curr_menu->set_selected(curr_selected);
 }
 
@@ -26,8 +26,8 @@ void MenuManager::up()
 	int curr_selected = curr_menu->get_selected_index() - 1;
 	// This is a c++ issue with negative modulo numbers: Workaround is to add the size to make it positive if the index goes negative
 	if(curr_selected < 0)
-		curr_selected = curr_selected + curr_menu->get_option_titles().size();
-	curr_selected = (curr_selected) % curr_menu->get_option_titles().size();
+		curr_selected = curr_selected + curr_menu->get_option_ids().size();
+	curr_selected = (curr_selected) % curr_menu->get_option_ids().size();
 	curr_menu->set_selected(curr_selected);
 }
 
@@ -65,17 +65,17 @@ void MenuManager::set_current_menu(const char * title, bool dontCreateBackButton
 void MenuManager::set_current_menu(Menu * menu, bool dontCreateBackButton)
 {
 	if(menu->get_prev_menu() != NULL)
-		setupOption(menu, backText, curr_menu, dontCreateBackButton);		// Set up the back button reference to the previous menu
+		setupOption(menu, backText, backText, curr_menu, dontCreateBackButton);		// Set up the back button reference to the previous menu
 	curr_menu = menu;
 	curr_menu->set_selected(0);		// Set the selected index to the top of the menu
 }
 
 // Returns whether the specified option exists or not in the current menu
-MenuOption* MenuManager::option_exists(Menu* menu, const char * option_name)
+MenuOption* MenuManager::option_exists(Menu* menu, const char * option_id)
 {
 	for(MenuOption* option : menu->get_options())
 	{
-		if(option_name == option->get_text())
+		if(option_id == option->get_text())
 			return option;
 	}
 	return NULL;
@@ -83,18 +83,19 @@ MenuOption* MenuManager::option_exists(Menu* menu, const char * option_name)
 
 
 // Adds an option to the passed in menu and tracks the boolean attached to this option if it is selected
-void MenuManager::setupOption(Menu* menu, const char * option_name, bool& flag)
+MenuOption* MenuManager::setupOption(Menu* menu, const char * option_id, const char * option_text, bool& flag)
 {
 	//If the option doesnt exist, create it in the menu
-	MenuOption* option = get_option(menu, option_name);
+	MenuOption* option = get_option(menu, option_id, option_text);
 
 	option->set_option_data(flag);
+	return option;
 }
 
 // Adds an option to the passed in menu and tracks the title of the next menu attached to this option
-void MenuManager::setupOption(Menu* menu, const char * option_name, Menu* next_menu, bool dontCreateBackButton)
+MenuOption* MenuManager::setupOption(Menu* menu, const char * option_id, const char * option_text, Menu* next_menu, bool dontCreateBackButton)
 {
-	MenuOption* option = get_option(menu, option_name);	//If the option doesnt exist, create it in the menu
+	MenuOption* option = get_option(menu, option_id, option_text);	//If the option doesnt exist, create it in the menu
 
 	option->set_option_data(next_menu->get_title());
 
@@ -102,8 +103,9 @@ void MenuManager::setupOption(Menu* menu, const char * option_name, Menu* next_m
 	{
 		// Set up the previous menu button tracking
 		next_menu->set_prev_menu(menu);
-		setupOption(next_menu, backText, menu, true);
+		setupOption(next_menu, backText, backText, menu, true);
 	}
+	return option;
 }
 
 Menu* MenuManager::createMenu(const char * title)
@@ -114,12 +116,12 @@ Menu* MenuManager::createMenu(const char * title)
 }
 
 // If the option doesnt exist, this will create it and return the option object
-MenuOption* MenuManager::get_option(Menu* menu, const char * option_name)
+MenuOption* MenuManager::get_option(Menu* menu, const char * option_id, const char * option_text)
 {
 	//If the option doesnt exist, create it in the menu
-	MenuOption* option = option_exists(menu, option_name);
+	MenuOption* option = option_exists(menu, option_id);
 	if(option == NULL)
-		return menu->add_option(option_name);
+		return menu->add_option(option_id, option_text);	// Make the ID the name since none was given
 	return option;
 }
 

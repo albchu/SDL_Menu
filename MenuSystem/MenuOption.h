@@ -15,13 +15,15 @@ enum OptionType
 class MenuOption
 {
 public:
-	MenuOption(SDL_Renderer* new_renderer, const char* new_text, int new_font_size=20, const char* font_path="../data/Fonts/Atmosphere-Regular.ttf");
+	MenuOption(SDL_Renderer* new_renderer, const char* init_id, const char* new_text="", int new_font_size=20, const char* font_path="../data/Fonts/Atmosphere-Regular.ttf");
 	//MenuOption(SDL_Renderer* new_renderer, const char* new_text);
 	//void init(SDL_Renderer* new_renderer, const char* new_text, const char* font_path);
 	~MenuOption();
 	void render(int x, int y);
 	void setSelected(bool selected);
 	SDL_Rect* getButtonRect();
+
+	const char* get_id();
 
 	// Option Data accessor/mutators
 	void set_option_data(const char* menu_name);
@@ -35,6 +37,7 @@ public:
 	void set_text(const char* new_text);
 
 private:
+	const char * id;	// different from text incase text changes, this wont be lost
 	const char* text;
 	SDL_Texture_Wrapper* buttonTexture;
 	SDL_Texture_Wrapper* buttonTextureSelected;

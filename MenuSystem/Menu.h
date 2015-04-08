@@ -14,10 +14,10 @@ public:
 	Menu(SDL_Renderer* new_renderer, const char * new_title = "");
 	~Menu();
 	void render(int view_x, int view_y, int width, int height);
-	MenuOption* add_option(const char* option);
+	MenuOption* add_option(const char* option_id, const char* option_text);
 	void set_selected(int selected);
 	const char * get_title();
-	vector<const char*> get_option_titles();
+	vector<const char*> get_option_ids();
 	int get_selected_index();
 	void set_prev_menu(Menu* new_menu);
 	Menu* get_prev_menu();
@@ -25,7 +25,7 @@ public:
 
 private:
 	vector<MenuOption*> options;
-	vector<const char*> optionTitles;
+	vector<const char*> optionIds;
 	SDL_Renderer* renderer;
 	int selected_index;
 	const char * title;

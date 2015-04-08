@@ -167,13 +167,17 @@ int main( int argc, char* args[] )
 	//New game menu setup
 	//managerLocal->setupOption(newGame, "Select Number of Players", mainMenu);	// UPDATE PLZ
 	//managerLocal->setupOption(newGame, "Select Number of Bots", mainMenu);	// UPDATE PLZ
-	managerLocal->setupOption(newGame, "Developer Options", developer);
-	managerLocal->setupOption(newGame, "Launch Game", gameActivated);
+	managerLocal->setupOption(newGame, "devoptions", "Developer Options", developer);
+	managerLocal->setupOption(newGame, "launch", "Launch Game", gameActivated);
+
+	// Dev options setup
+	bool godmode = false;
+	MenuOption* godModeOption = managerLocal->setupOption(developer, "devoptions", "Godmode Off", godmode);
 
 	//Main menu setup
-	managerLocal->setupOption(mainMenu, "New Game", newGame);
-	managerLocal->setupOption(mainMenu, "Settings", settings);
-	managerLocal->setupOption(mainMenu, "Exit Game", exitGame);
+	managerLocal->setupOption(mainMenu, "newgame", "New Game", newGame);
+	managerLocal->setupOption(mainMenu, "settings", "Settings", settings);
+	managerLocal->setupOption(mainMenu, "exitgame", "Exit Game", exitGame);
 
 
 	managerLocal->set_current_menu("Main Menu");
@@ -204,6 +208,13 @@ int main( int argc, char* args[] )
 		}
 		else
 			cout << "Game Deactvated!" << endl;
+
+		if(godmode)
+		{
+			godModeOption->set_text("God Mode On!");
+		}
+		else
+			godModeOption->set_text("God Mode Off!");
 
 	}
 
