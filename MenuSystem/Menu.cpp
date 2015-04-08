@@ -72,11 +72,12 @@ void Menu::set_selected(int selected)
 		selected_index = 0;	// Else default it to zero. Can be problematic if nothing is set in the menu
 }
 
-void Menu::add_option(const char* option_name)
+MenuOption* Menu::add_option(const char* option_name)
 {
 	MenuOption* option = new MenuOption(renderer, option_name);
 	options.push_back(option);
 	optionTitles.push_back(option_name);
+	return option;
 }
 
 void Menu::set_prev_menu(Menu* new_menu)
@@ -88,3 +89,9 @@ Menu* Menu::get_prev_menu()
 {
 	return prev_menu;
 }
+
+vector<MenuOption*> Menu::get_options()
+{
+	return options;
+}
+

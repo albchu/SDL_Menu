@@ -74,3 +74,41 @@ MenuOption::~MenuOption()
 	buttonTexture->free();
 	buttonTextureSelected->free();
 }
+
+void MenuOption::set_option_data(const char* menu_name)
+{
+	type = REDIRECT;
+	redirect_menu = menu_name;
+}
+
+void MenuOption::set_option_data(bool* new_flag)
+{
+	type = FLAG;
+	flag = new_flag;
+}
+
+const char* MenuOption::get_redirect_menu()
+{
+	return redirect_menu;
+}
+
+bool* MenuOption::get_flag()
+{
+	return flag;
+}
+
+const char* MenuOption::get_text()
+{
+	return text;
+}
+
+void MenuOption::set_text(const char* new_text)
+{
+	text = new_text;
+}
+
+OptionType MenuOption::get_type()
+{
+	return type;
+}
+

@@ -4,7 +4,7 @@ MenuManager::MenuManager(SDL_Renderer* new_renderer, int new_view_x, int new_vie
 {
 	renderer = new_renderer;
 	curr_menu = NULL;
-	prev_menu = NULL;
+	//prev_menu = NULL;
 
 	view_x = new_view_x;
 	view_y = new_view_y;
@@ -33,18 +33,21 @@ void MenuManager::up()
 
 void MenuManager::select()
 {
-	const char * option_name = curr_menu->get_option_titles()[curr_menu->get_selected_index()];
-	map<const char *, MenuOptionData> optionMap = menuOptionDataMap[curr_menu->get_title()];
-	MenuOptionData optionData = optionMap[option_name];
+	MenuOption* option = curr_menu->get_options()[curr_menu->get_selected_index()];
 
-	if(optionData.type == REDIRECT)
+	if(option->get_type() == REDIRECT)
 	{
 		// Update previous menu
-		optionData.redirect->set_prev_menu(curr_menu);
-		//prev_menu = curr_menu;
-		set_current_menu(optionData.redirect);
+		Menu* new_curr_menu = menus[option->get_redirect_menu()];
+		//new_curr_menu->set_prev_menu(curr_menu);	
+		set_current_menu(new_curr_menu, true);
 	}
-	cout << "Hello" <<endl;
+	else if(option->get_type() == FLAG)
+	{
+		cout << "This is not yet implemented" <<endl;
+
+	}
+
 }
 
 void MenuManager::render()
@@ -53,61 +56,53 @@ void MenuManager::render()
 }
 
 // Sets the current menu to be rendered by render()
-void MenuManager::set_current_menu(const char * title)
+void MenuManager::set_current_menu(const char * title, bool dontCreateBackButton)
 {
-	set_current_menu( menus[title]);
+	set_current_menu( menus[title], dontCreateBackButton);
 }
 
-void MenuManager::set_current_menu(Menu * menu)
+void MenuManager::set_current_menu(Menu * menu, bool dontCreateBackButton)
 {
 	if(menu->get_prev_menu() != NULL)
-		setupOption(menu, backText, menu->get_prev_menu());		// Set up the back button reference to the previous menu
+		setupOption(menu, backText, curr_menu, dontCreateBackButton);		// Set up the back button reference to the previous menu
 	curr_menu = menu;
 	curr_menu->set_selected(0);		// Set the selected index to the top of the menu
 }
 
 // Returns whether the specified option exists or not in the current menu
-bool MenuManager::option_exists(Menu* menu, const char * option)
+MenuOption* MenuManager::option_exists(Menu* menu, const char * option_name)
 {
-	for(const char * option_name : menu->get_option_titles())
+	for(MenuOption* option : menu->get_options())
 	{
-		if(option_name == option)
-			return true;
+		if(option_name == option->get_text())
+			return option;
 	}
-	return false;
+	return NULL;
 }
 
 
 // Adds an option to the passed in menu and tracks the boolean attached to this option if it is selected
-void MenuManager::setupOption(Menu* menu, const char * option, bool * flag)
+void MenuManager::setupOption(Menu* menu, const char * option_name, bool * flag)
 {
 	//If the option doesnt exist, create it in the menu
-	if(!option_exists(menu, option))
-		menu->add_option(option);
+	MenuOption* option = get_option(menu, option_name);
 
-	map<const char *, MenuOptionData> optionDataMap;
-	MenuOptionData optionData;
-	optionData.type = FLAG;
-	optionData.flag = flag;
-
-	optionDataMap[option] = optionData;
-	menuOptionDataMap[menu->get_title()] = optionDataMap;
+	option->set_option_data(flag);
 }
 
 // Adds an option to the passed in menu and tracks the title of the next menu attached to this option
-void MenuManager::setupOption(Menu* menu, const char * option, Menu* next_menu)
+void MenuManager::setupOption(Menu* menu, const char * option_name, Menu* next_menu, bool dontCreateBackButton)
 {
-	//If the option doesnt exist, create it in the menu
-	if(!option_exists(menu, option))
-		menu->add_option(option);
+	MenuOption* option = get_option(menu, option_name);	//If the option doesnt exist, create it in the menu
 
-	map<const char *, MenuOptionData> optionDataMap;
-	MenuOptionData optionData;
-	optionData.type = REDIRECT;
-	optionData.redirect = next_menu;
+	option->set_option_data(next_menu->get_title());
 
-	optionDataMap[option] = optionData;
-	menuOptionDataMap[menu->get_title()] = optionDataMap;
+	if(!dontCreateBackButton)
+	{
+		// Set up the previous menu button tracking
+		next_menu->set_prev_menu(menu);
+		setupOption(next_menu, backText, menu, true);
+	}
 }
 
 Menu* MenuManager::createMenu(const char * title)
@@ -116,3 +111,14 @@ Menu* MenuManager::createMenu(const char * title)
 	menus[title] = menu;
 	return menu;
 }
+
+// If the option doesnt exist, this will create it and return the option object
+MenuOption* MenuManager::get_option(Menu* menu, const char * option_name)
+{
+	//If the option doesnt exist, create it in the menu
+	MenuOption* option = option_exists(menu, option_name);
+	if(option == NULL)
+		return menu->add_option(option_name);
+	return option;
+}
+

@@ -6,18 +6,6 @@
 #include "SDL_Texture_Wrapper.h"
 #include "Menu.h"
 
-enum MenuOptionType
-{
-	REDIRECT,
-	FLAG
-};
-
-struct MenuOptionData
-{
-	MenuOptionType type;
-	Menu* redirect;
-	bool * flag;
-};
 
 using namespace std;
 
@@ -31,17 +19,18 @@ public:
 	Menu* createMenu(const char * title);
 	void render();
 	void setupOption(Menu* menu, const char * option, bool * flag);
-	void setupOption(Menu* menu, const char * option, Menu* next_menu);
-	bool option_exists(Menu* menu, const char * option);
-	void set_current_menu(const char * title);
-	void set_current_menu(Menu * menu);
+	void setupOption(Menu* menu, const char * option, Menu* next_menu, bool dontCreateBackButton = false);
+	MenuOption* option_exists(Menu* menu, const char * option);
+	void set_current_menu(const char * title, bool dontCreateBackButton = true);
+	void set_current_menu(Menu * menu, bool dontCreateBackButton = true);
+	MenuOption* get_option(Menu* menu, const char * option);
 
 private:
 	SDL_Renderer* renderer;
 	map<const char*, Menu*> menus;
-	map<const char*, map<const char *, MenuOptionData>> menuOptionDataMap;	// Maps options to their respective datas
+	//map<const char*, map<const char *, MenuOptionData>> menuOptionDataMap;	// Maps options to their respective datas
 	Menu* curr_menu;
-	Menu* prev_menu;
+	//Menu* prev_menu;
 	int view_x;
 	int view_y;
 	int width;

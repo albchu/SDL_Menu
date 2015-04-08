@@ -158,20 +158,22 @@ int main( int argc, char* args[] )
 	MenuManager* managerLocal = new MenuManager(gRenderer, 0,0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	Menu* menu = managerLocal->createMenu("Main Menu");
 	Menu* submenu1 = managerLocal->createMenu("Submenu1");
-	//Menu* submenu2 = manager->createMenu("Submenu2");
-	//Menu* submenu3 = manager->createMenu("Submenu3");
+	Menu* submenu2 = managerLocal->createMenu("Submenu2");
+	Menu* submenu3 = managerLocal->createMenu("Submenu3");
 	bool flag1 = true;
+
+	
+	//Sub menu 1 setup
+	managerLocal->setupOption(submenu1, "Set Flag1", &flag1);
+	managerLocal->setupOption(submenu1, "Go to submenu 3", submenu3);
+
+	managerLocal->setupOption(submenu3, "Go to submenu 2", submenu2);
 
 	//Main menu setup
 	managerLocal->setupOption(menu, "Submenu1", submenu1);
-	//manager->setupOption(menu, "Submenu2", submenu2);
-	//manager->setupOption(menu, "Submenu3", submenu3);
+	managerLocal->setupOption(menu, "Submenu2", submenu2);
+	managerLocal->setupOption(menu, "Submenu3", submenu3);
 
-	//Sub menu 1 setup
-	managerLocal->setupOption(submenu1, "Set Flag1", &flag1);
-	//manager->setupOption(submenu1, "Go to submenu 3", submenu3);
-
-	//manager->setupOption(submenu3, "Go to submenu 2", submenu2);
 
 	managerLocal->set_current_menu("Main Menu");
 

@@ -5,6 +5,12 @@
 
 using namespace std;
 
+enum OptionType
+{
+	REDIRECT,
+	FLAG
+};
+
 // An option for the menu
 class MenuOption
 {
@@ -16,6 +22,16 @@ public:
 	void render(int x, int y);
 	void setSelected(bool selected);
 	SDL_Rect* getButtonRect();
+
+	// Option Data accessor/mutators
+	void set_option_data(const char* menu_name);
+	void set_option_data(bool* new_flag);
+
+	OptionType get_type();
+	const char* get_redirect_menu();
+	bool * get_flag();
+	const char* get_text();
+	void set_text(const char* new_text);
 
 private:
 	const char* text;
@@ -29,6 +45,11 @@ private:
 	int padding_h_scalar;
 	bool is_selected;
 	SDL_Rect* buttonRenderQuad;
+
+	// Option Data. These fields can vary in which ones are filled at any time
+	OptionType type;
+	const char* redirect_menu;	// Name of the menu to redirect to: cant directly refer to menu due to circular dependancy issue
+	bool * flag;
 };
 
 #endif
