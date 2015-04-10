@@ -15,14 +15,16 @@ enum OptionType
 class MenuOption
 {
 public:
-	MenuOption(SDL_Renderer* new_renderer, const char* init_id, const char* new_text="", int new_font_size=20, const char* font_path="../data/Fonts/Atmosphere-Regular.ttf");
+	MenuOption(SDL_Renderer* new_renderer, const char* init_id, const char* new_text="", int new_font_size=20, const char* font_path="../data/Fonts/Queen of Camelot Regular.ttf");
 	//MenuOption(SDL_Renderer* new_renderer, const char* new_text);
 	//void init(SDL_Renderer* new_renderer, const char* new_text, const char* font_path);
+	MenuOption();
 	~MenuOption();
-	void render(int x, int y);
+	virtual void render(int x, int y);
 	void setSelected(bool selected);
-	SDL_Rect* getButtonRect();
-
+	virtual SDL_Rect* getButtonRect();
+	SDL_Texture_Wrapper* get_text_texture();
+	void set_button_texture(const char* texture_path);
 	const char* get_id();
 
 	// Option Data accessor/mutators
@@ -36,7 +38,7 @@ public:
 	const char* get_text();
 	void set_text(const char* new_text);
 
-private:
+protected:
 	const char * id;	// different from text incase text changes, this wont be lost
 	const char* text;
 	SDL_Texture_Wrapper* buttonTexture;
@@ -48,12 +50,15 @@ private:
 	int padding_w_scalar;
 	int padding_h_scalar;
 	bool is_selected;
-	SDL_Rect* buttonRenderQuad;
+	bool selectable;	// Checks if the object is selectable
 
 	// Option Data. These fields can vary in which ones are filled at any time
 	OptionType type;
 	const char* redirect_menu;	// Name of the menu to redirect to: cant directly refer to menu due to circular dependancy issue
 	bool* flag;	// Needs to record a pointer to the reference of the original boolean so that we will change that original boolean when we need to.
+
+	SDL_Rect* buttonRenderQuad;
+
 };
 
 #endif

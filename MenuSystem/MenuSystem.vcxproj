@@ -83,6 +83,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="MenuRangeOption.cpp" />
     <ClCompile Include="SDL_Texture_Wrapper.cpp" />
     <ClCompile Include="MenuManager.cpp" />
     <ClCompile Include="Menu.cpp" />
@@ -90,6 +91,7 @@
     <ClCompile Include="MenuOption.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MenuRangeOption.h" />
     <ClInclude Include="SDL_Texture_Wrapper.h" />
     <ClInclude Include="MenuManager.h" />
     <ClInclude Include="Menu.h" />

@@ -19,12 +19,14 @@ public:
 	Menu* createMenu(const char * title);
 	void render();
 	MenuOption* setupOption(Menu* menu, const char * option_id, const char * option_text, bool& flag);
+	MenuOption* setupRangeOption(Menu* menu, const char * option_id, vector<const char *> pickbox, int& selectedIndex);
 	MenuOption* setupOption(Menu* menu, const char * option_id, const char * option_text, Menu* next_menu, bool dontCreateBackButton = false);
 	MenuOption* option_exists(Menu* menu, const char * option_id);
+	MenuOption* option_exists(Menu* menu, vector<const char *> pickbox);
 	void set_current_menu(const char * title, bool dontCreateBackButton = true);
 	void set_current_menu(Menu * menu, bool dontCreateBackButton = true);
 	MenuOption* get_option(Menu* menu, const char * option_id, const char * option_text);
-
+	MenuOption* get_option(Menu* menu, const char * option_id, vector<const char *> pickbox);
 private:
 	SDL_Renderer* renderer;
 	map<const char*, Menu*> menus;

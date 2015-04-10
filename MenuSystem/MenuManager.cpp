@@ -125,3 +125,19 @@ MenuOption* MenuManager::get_option(Menu* menu, const char * option_id, const ch
 	return option;
 }
 
+// If the option doesnt exist, this will create it and return the option object
+MenuOption* MenuManager::get_option(Menu* menu, const char * option_id, vector<const char *> pickbox)
+{
+	//If the option doesnt exist, create it in the menu
+	MenuOption* option = option_exists(menu, option_id);
+	if(option == NULL)
+		return menu->add_option(option_id, pickbox);	// Make the ID the name since none was given
+	return option;
+}
+
+MenuOption* MenuManager::setupRangeOption(Menu* menu, const char * option_id, vector<const char *> pickbox, int& selectedIndex)
+{
+	MenuOption* option = get_option(menu, option_id, pickbox);	//If the option doesnt exist, create it in the menu
+
+	return option;
+}

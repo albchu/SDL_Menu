@@ -10,7 +10,7 @@ Menu::Menu(SDL_Renderer* new_renderer, const char * new_title)
 	titleTexture = new SDL_Texture_Wrapper(renderer);
 	titleFontSize = 35;
 
-	TTF_Font* titleFont = TTF_OpenFont( "../data/Fonts/Atmosphere-Regular.ttf", titleFontSize );
+	TTF_Font* titleFont = TTF_OpenFont( "../data/Fonts/gomarice_hyouzi_display.ttf", titleFontSize );
 	SDL_Color textColor = { 0, 0, 0 };
 	if( !titleTexture->loadFromRenderedText( title, textColor, titleFont ) )
 	{
@@ -43,13 +43,14 @@ vector<const char*> Menu::get_option_ids()
 	return optionIds;
 }
 
+// Given the viewport info, the menu will be rendered in the center of the screen
 void Menu::render(int view_x, int view_y, int width, int height)
 {
 	int x = view_x + width/2;
 	int y = view_y + height/4;
 	int spacing_y = 5;
 
-	titleTexture->render(x - titleTexture->getWidth()/2,y - titleFontSize * 2);
+	titleTexture->render(x - titleTexture->getWidth()/2,y - titleFontSize * 2);	// Renders the title of the menu
 
 	for(int i = 0; i < options.size(); i++)
 	{
@@ -75,6 +76,15 @@ void Menu::set_selected(int selected)
 MenuOption* Menu::add_option(const char* option_id, const char* option_text)
 {
 	MenuOption* option = new MenuOption(renderer, option_id, option_text);
+	options.push_back(option);
+	optionIds.push_back(option_id);
+	return option;
+}
+
+// Adds a range option object
+MenuOption* Menu::add_option(const char* option_id, vector<const char*> pickbox)
+{
+	MenuOption* option = new MenuRangeOption(renderer, option_id, pickbox);
 	options.push_back(option);
 	optionIds.push_back(option_id);
 	return option;

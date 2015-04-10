@@ -17,8 +17,8 @@ and may not be redistributed without written permission.*/
 #pragma comment(lib, "SDL2main.lib")
 #pragma comment(lib, "SDL2_image.lib")
 //Screen dimension constants
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+const int SCREEN_WIDTH = 1280;
+const int SCREEN_HEIGHT = 720;
 
 
 //Starts up SDL and creates window
@@ -172,6 +172,13 @@ int main( int argc, char* args[] )
 	MenuOption* godModeOption = managerLocal->setupOption(developer, "devoptions", "Godmode Off", godmode);
 
 	//Main menu setup
+	vector<const char*> pickbox;
+	pickbox.push_back("Choice 1");
+	pickbox.push_back("Choice 2");
+	pickbox.push_back("Choice 3");
+	int selectedIndex = 0;
+
+	managerLocal->setupRangeOption(mainMenu, "Some Pickbox", pickbox, selectedIndex);
 	managerLocal->setupOption(mainMenu, "newgame", "New Game", newGame);
 	managerLocal->setupOption(mainMenu, "settings", "Settings", settings);
 	managerLocal->setupOption(mainMenu, "exitgame", "Exit Game", exitGame);
@@ -198,12 +205,12 @@ int main( int argc, char* args[] )
 		//Update screen
 		SDL_RenderPresent( gRenderer );
 
-		if(gameActivated)
-		{
-			cout << "Game Activated!" << endl;
-		}
-		else
-			cout << "Game Deactvated!" << endl;
+		//if(gameActivated)
+		//{
+		//	cout << "Game Activated!" << endl;
+		//}
+		//else
+		//	cout << "Game Deactvated!" << endl;
 
 		if(godmode)
 		{
