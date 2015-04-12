@@ -16,7 +16,7 @@ public:
 	~Menu();
 	void render(int view_x, int view_y, int width, int height);
 	MenuOption* add_option(const char* option_id, const char* option_text);
-	MenuOption* add_option(const char* option_id, vector<const char*> pickbox);
+	MenuOption* add_option(const char* option_id, vector<const char*> pickbox, int& index);
 	void set_selected(int selected);
 	const char * get_title();
 	vector<const char*> get_option_ids();

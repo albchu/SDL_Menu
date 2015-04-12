@@ -11,9 +11,11 @@ using namespace std;
 class MenuRangeOption : public MenuOption	// Inheritance so i can use the same calls in menu
 {
 public:
-	MenuRangeOption(SDL_Renderer* new_renderer, const char* init_id, vector<const char*> new_pickbox, int new_font_size=20, const char* font_path="../data/Fonts/Queen of Camelot Regular.ttf");
+	MenuRangeOption(SDL_Renderer* new_renderer, const char* init_id, vector<const char*> new_pickbox, int& init_selected_index, int new_font_size=20, const char* font_path="../data/Fonts/Queen of Camelot Regular.ttf");
 	virtual void render(int x, int y);
 	void setPickboxIndex(int index);
+	int getPickboxIndex();
+	vector<const char*> get_pickbox();
 	virtual SDL_Rect* getButtonRect();
 
 private:
@@ -24,7 +26,7 @@ private:
 	MenuOption* pickboxOption;
 	int padding_w_scalar;
 	int padding_h_scalar;
-	int selectedIndex;
+	int* selectedIndex;	// Pointer to reference of selected index
 };
 
 #endif

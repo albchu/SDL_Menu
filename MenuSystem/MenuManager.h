@@ -15,6 +15,9 @@ public:
 	MenuManager(SDL_Renderer* new_renderer, int new_view_x, int new_view_y, int new_width, int new_height);
 	void down();
 	void up();
+	void left();
+	void right();
+	void right(MenuOption* option);	// Default option for select on range option
 	void select();	// Selects the current highlighted option in the current displayed menu and does the required task
 	Menu* createMenu(const char * title);
 	void render();
@@ -26,7 +29,7 @@ public:
 	void set_current_menu(const char * title, bool dontCreateBackButton = true);
 	void set_current_menu(Menu * menu, bool dontCreateBackButton = true);
 	MenuOption* get_option(Menu* menu, const char * option_id, const char * option_text);
-	MenuOption* get_option(Menu* menu, const char * option_id, vector<const char *> pickbox);
+	MenuOption* get_option(Menu* menu, const char * option_id, vector<const char *> pickbox, int& selectedIndex);
 private:
 	SDL_Renderer* renderer;
 	map<const char*, Menu*> menus;

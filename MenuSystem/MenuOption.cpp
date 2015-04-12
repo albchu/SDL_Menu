@@ -10,7 +10,6 @@ MenuOption::MenuOption(SDL_Renderer* new_renderer, const char* init_id, const ch
 	padding_w_scalar = 2;	// Higher the number, the larger the padding
 	padding_h_scalar = 2;	// Higher the number, the larger the padding
 	is_selected = false;
-	selectable = true;
 	font = TTF_OpenFont( font_path, font_size );
 
 	// Instantiate objects
@@ -54,7 +53,7 @@ void MenuOption::render(int x, int y)
 	rotate_center->y = 0;
 
 	//Determine which button texture to use
-	if(is_selected && selectable)
+	if(is_selected)
 		buttonTextureSelected->render(x,y, NULL, 0, rotate_center, SDL_FLIP_NONE, buttonRenderQuad);
 	else
 		buttonTexture->render(x,y, NULL, 0, rotate_center, SDL_FLIP_NONE, buttonRenderQuad);
@@ -71,6 +70,15 @@ void MenuOption::set_button_texture(const char* texture_path)
 {
 		// Load background button
 	if( !buttonTexture->loadFromFile(texture_path) )
+	{
+		printf( "Failed to render button texture!\n" );
+	}
+}
+
+void MenuOption::set_button_selected_texture(const char* texture_path)
+{
+		// Load background button
+	if( !buttonTextureSelected->loadFromFile(texture_path) )
 	{
 		printf( "Failed to render button texture!\n" );
 	}

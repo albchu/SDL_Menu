@@ -1,6 +1,8 @@
 #ifndef _MENU_OPTION_H_
 #define _MENU_OPTION_H_
 
+#include <iostream>
+
 #include "SDL_Texture_Wrapper.h"
 
 using namespace std;
@@ -8,7 +10,8 @@ using namespace std;
 enum OptionType
 {
 	REDIRECT,
-	FLAG
+	FLAG,
+	RANGE
 };
 
 // An option for the menu
@@ -25,6 +28,7 @@ public:
 	virtual SDL_Rect* getButtonRect();
 	SDL_Texture_Wrapper* get_text_texture();
 	void set_button_texture(const char* texture_path);
+	void set_button_selected_texture(const char* texture_path);
 	const char* get_id();
 
 	// Option Data accessor/mutators
@@ -50,7 +54,6 @@ protected:
 	int padding_w_scalar;
 	int padding_h_scalar;
 	bool is_selected;
-	bool selectable;	// Checks if the object is selectable
 
 	// Option Data. These fields can vary in which ones are filled at any time
 	OptionType type;

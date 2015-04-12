@@ -82,9 +82,9 @@ MenuOption* Menu::add_option(const char* option_id, const char* option_text)
 }
 
 // Adds a range option object
-MenuOption* Menu::add_option(const char* option_id, vector<const char*> pickbox)
+MenuOption* Menu::add_option(const char* option_id, vector<const char*> pickbox, int& index)
 {
-	MenuOption* option = new MenuRangeOption(renderer, option_id, pickbox);
+	MenuOption* option = new MenuRangeOption(renderer, option_id, pickbox, index);
 	options.push_back(option);
 	optionIds.push_back(option_id);
 	return option;

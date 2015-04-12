@@ -21,6 +21,40 @@ void MenuManager::down()
 	curr_menu->set_selected(curr_selected);
 }
 
+void MenuManager::left()
+{
+	MenuOption* option = curr_menu->get_options()[curr_menu->get_selected_index()];
+	if(option->get_type() == RANGE)		// Toggle the boolean
+	{
+		MenuRangeOption* rangeOption = ((MenuRangeOption*)option);
+		int index = rangeOption->getPickboxIndex() - 1;
+		vector<const char*> pickbox = rangeOption->get_pickbox();
+		// This is a c++ issue with negative modulo numbers: Workaround is to add the size to make it positive if the index goes negative
+		if(index < 0)
+			index = index + pickbox.size();
+		index = (index ) % pickbox.size();
+		rangeOption->setPickboxIndex(index);
+	}
+}
+
+void MenuManager::right()
+{
+	MenuOption* option = curr_menu->get_options()[curr_menu->get_selected_index()];
+	right(option);
+}
+
+void MenuManager::right(MenuOption* option)
+{
+	if(option->get_type() == RANGE)		// Toggle the boolean
+	{
+		MenuRangeOption* rangeOption = ((MenuRangeOption*)option);
+		int index = rangeOption->getPickboxIndex() + 1;
+		vector<const char*> pickbox = rangeOption->get_pickbox();
+		index = index % pickbox.size();
+		rangeOption->setPickboxIndex(index);
+	}
+}
+
 void MenuManager::up()
 {
 	int curr_selected = curr_menu->get_selected_index() - 1;
@@ -48,6 +82,11 @@ void MenuManager::select()
 		option->toggle_flag();
 		//aflag = true;
 	}
+	else if(option->get_type() == RANGE)		// Toggle the boolean
+	{
+		right(option);
+	}
+
 
 }
 
@@ -126,18 +165,18 @@ MenuOption* MenuManager::get_option(Menu* menu, const char * option_id, const ch
 }
 
 // If the option doesnt exist, this will create it and return the option object
-MenuOption* MenuManager::get_option(Menu* menu, const char * option_id, vector<const char *> pickbox)
+MenuOption* MenuManager::get_option(Menu* menu, const char * option_id, vector<const char *> pickbox, int& selectedIndex)
 {
 	//If the option doesnt exist, create it in the menu
 	MenuOption* option = option_exists(menu, option_id);
 	if(option == NULL)
-		return menu->add_option(option_id, pickbox);	// Make the ID the name since none was given
+		return menu->add_option(option_id, pickbox, selectedIndex);	// Make the ID the name since none was given
 	return option;
 }
 
 MenuOption* MenuManager::setupRangeOption(Menu* menu, const char * option_id, vector<const char *> pickbox, int& selectedIndex)
 {
-	MenuOption* option = get_option(menu, option_id, pickbox);	//If the option doesnt exist, create it in the menu
+	MenuOption* option = get_option(menu, option_id, pickbox, selectedIndex);	//If the option doesnt exist, create it in the menu
 
 	return option;
 }

@@ -132,6 +132,14 @@ void OnEvent(SDL_Event* Event)
 		case SDLK_UP:
 			manager->up();
 			break;
+						
+		case SDLK_LEFT:
+			manager->left();
+			break;
+						
+		case SDLK_RIGHT:
+			manager->right();
+			break;
 			
 		case SDLK_RETURN:
 			manager->select();
@@ -176,7 +184,7 @@ int main( int argc, char* args[] )
 	pickbox.push_back("Choice 1");
 	pickbox.push_back("Choice 2");
 	pickbox.push_back("Choice 3");
-	int selectedIndex = 0;
+	int selectedIndex = 1;
 
 	managerLocal->setupRangeOption(mainMenu, "Some Pickbox", pickbox, selectedIndex);
 	managerLocal->setupOption(mainMenu, "newgame", "New Game", newGame);
@@ -218,7 +226,7 @@ int main( int argc, char* args[] )
 		}
 		else
 			godModeOption->set_text("God Mode Off!");
-
+		//cout << "Index: " << selectedIndex << endl;
 	}
 
 	//Free resources and close SDL
