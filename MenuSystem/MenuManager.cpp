@@ -71,22 +71,17 @@ void MenuManager::select()
 
 	if(option->get_type() == REDIRECT)
 	{
-		// Update previous menu
 		Menu* new_curr_menu = menus[option->get_redirect_menu()];
-		//new_curr_menu->set_prev_menu(curr_menu);	
 		set_current_menu(new_curr_menu, true);
 	}
 	else if(option->get_type() == FLAG)		// Toggle the boolean
 	{
-		//bool aflag = *option->get_flag();
 		option->toggle_flag();
-		//aflag = true;
 	}
 	else if(option->get_type() == RANGE)		// Toggle the boolean
 	{
 		right(option);
 	}
-
 
 }
 
